@@ -41,7 +41,7 @@ type Scr = Surface -> IO ()
 type Resources = (ImageResource, SoundResource)
 
 -- Program etrny point
-foreign export ccall "hs_main" main :: IO ()
+-- foreign export ccall "hs_main" main :: IO ()
 main :: IO ()
 main = do
 	args <- getArgs
