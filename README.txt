@@ -1,10 +1,16 @@
-
 Make "Super Nario GC"
 http://d.hatena.ne.jp/authorNari/20080422/1208880928
 
 in Haskell
 
+This is Keera Studio's fork of Nario. The reason for this fork is: it's a great game,
+t's a great example of Games implemented in haskell, and it should be maintained. The licence
+remains the same, and if the author (or anyone else) wants to take the changes, they are
+more than free to do so, provided that they comply with the licence terms.
 
+This fork is work in progress. Some references to the original project may remain. This
+does not imply that the original author (user mokehehe?) supports our claims or modifications
+in any way.
 
 * Operation
 	Cursor key, ijkl
