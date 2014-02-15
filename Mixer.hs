@@ -1,3 +1,4 @@
+{-# LANGUAGE ScopedTypeVariables #-}
 module Mixer (
 	initMixer,
 	playSE,
@@ -5,6 +6,7 @@ module Mixer (
 	stopBGM
 ) where
 
+import Control.Exception
 import Graphics.UI.SDL.Mixer
 import Data.IORef (IORef, newIORef, readIORef, writeIORef)
 import System.IO.Unsafe (unsafePerformIO)
@@ -23,7 +25,7 @@ initMixer = do
 
 playSE :: Maybe Chunk -> IO ()
 playSE Nothing = return ()
-playSE (Just ad) = flip catch (\_ -> return ()) $ do
+playSE (Just ad) = flip catch (\(_ :: SomeException) -> return ()) $ do
 	playChannel (-1) ad 0
 	return ()
 

@@ -1,3 +1,4 @@
+{-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE ForeignFunctionInterface #-}
 module AppUtil (
 	KeyProc,
@@ -22,6 +23,7 @@ module AppUtil (
 	ishit
 ) where
 
+import Control.Exception
 import Graphics.UI.SDL hiding (flip)
 import Graphics.UI.SDL.Utilities
 import Graphics.UI.SDL.Mixer
@@ -133,7 +135,7 @@ loadSoundResource sndtypes = mapM load sndtypes
 			dat <- loadWAV $ (soundPath ++) $ soundFn sndtype
 			return (sndtype, Just dat)
 			where
-				err _ = return (sndtype, Nothing)
+				err = \(_ :: SomeException) -> return (sndtype, Nothing)
 
 
 -- From fixed point integer to cell coordinate
