@@ -35,10 +35,10 @@ maxVy = one * 5
 
 -- Score point
 pointKuribo, pointNokonoko, pointKinoko, pointFlower, pointBreakBlock, pointGetCoin, pointKoura :: Int
-pointKuribo		= 100
-pointNokonoko	= 100
-pointKinoko		= 1000
-pointFlower		= 1000
-pointBreakBlock	= 50
-pointGetCoin	= 200
-pointKoura		= 400
+pointKuribo    = 100
+pointNokonoko  = 100
+pointKinoko    = 1000
+pointFlower    = 1000
+pointBreakBlock  = 50
+pointGetCoin  = 200
+pointKoura    = 400

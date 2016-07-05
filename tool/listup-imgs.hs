@@ -9,45 +9,45 @@ import Data.List (intercalate)
 
 -- 画像ファイルの列挙
 listupImgFiles path = fileEntries path >>= return . filter bmpFile
-	where
-		bmpFile = isJust . regex "\\.bmp$"
+  where
+    bmpFile = isJust . regex "\\.bmp$"
 
 -- 正規表現
 regex rexstr str = matchRegex (mkRegex rexstr) str
 
 -- 全置換
 gsub rexstr f str = loop str
-	where
-		loop str =
-			case matchRegexAll rex str of
-				Just (before, matched, after, sub)	-> before ++ f sub ++ loop after
-				Nothing		-> str
-		rex = mkRegex rexstr
+  where
+    loop str =
+      case matchRegexAll rex str of
+        Just (before, matched, after, sub)  -> before ++ f sub ++ loop after
+        Nothing    -> str
+    rex = mkRegex rexstr
 
 -- 拡張子を除いたファイル名
 basefn fn =
-	case regex "^(.*)\\..*$" $ basename fn of
-		Just [base]	-> base
-		Nothing		-> fn
+  case regex "^(.*)\\..*$" $ basename fn of
+    Just [base]  -> base
+    Nothing    -> fn
 
 -- 先頭を大文字に
 camelize (x:xs) = toUpper x : xs
 
 -- エントリ
 main = do
-	args <- getArgs
-	let imgpath = head args
+  args <- getArgs
+  let imgpath = head args
 
-	imgFiles <- listupImgFiles imgpath
-	let symbols = map (("Img" ++) . gsub "([a-zA-Z]+)" (camelize . head) . basefn) imgFiles
+  imgFiles <- listupImgFiles imgpath
+  let symbols = map (("Img" ++) . gsub "([a-zA-Z]+)" (camelize . head) . basefn) imgFiles
 
-	putStrLn "module Images (ImageType(..), imageTypes, imageFn) where"
-	putStrLn "import Data.Maybe (fromJust)"
+  putStrLn "module Images (ImageType(..), imageTypes, imageFn) where"
+  putStrLn "import Data.Maybe (fromJust)"
 
-	putStrLn $ "data ImageType = " ++ intercalate " | " symbols ++ "\tderiving (Eq)"
-	putStrLn $ "imageTypes :: [ImageType]"
-	putStrLn $ "imageTypes = [" ++ intercalate ", " symbols ++ "]"
-	putStrLn $ "imageFilenames :: [String]"
-	putStrLn $ "imageFilenames = [\"" ++ intercalate "\", \"" imgFiles ++ "\"]"
-	putStrLn $ "imageFn :: ImageType -> String"
-	putStrLn $ "imageFn = fromJust . flip lookup (zip imageTypes imageFilenames)"
+  putStrLn $ "data ImageType = " ++ intercalate " | " symbols ++ "\tderiving (Eq)"
+  putStrLn $ "imageTypes :: [ImageType]"
+  putStrLn $ "imageTypes = [" ++ intercalate ", " symbols ++ "]"
+  putStrLn $ "imageFilenames :: [String]"
+  putStrLn $ "imageFilenames = [\"" ++ intercalate "\", \"" imgFiles ++ "\"]"
+  putStrLn $ "imageFn :: ImageType -> String"
+  putStrLn $ "imageFn = fromJust . flip lookup (zip imageTypes imageFilenames)"

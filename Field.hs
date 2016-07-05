@@ -1,19 +1,19 @@
 -- Field
 {-
-	' '		Space
-	'*'		Invisible wall (Temporal char when player punch a wall)
+  ' '    Space
+  '*'    Invisible wall (Temporal char when player punch a wall)
 -}
 
 module Field (
-	Field,
-	Cell,
-	loadField,
-	fieldRef,
-	fieldSet,
-	isBlock,
-	hardBlock,
-	renderField,
-	chr2img
+  Field,
+  Cell,
+  loadField,
+  fieldRef,
+  fieldSet,
+  isBlock,
+  hardBlock,
+  renderField,
+  chr2img
 ) where
 
 import Graphics.UI.SDL (Surface)
@@ -32,8 +32,8 @@ type Field = [[Cell]]
 -- Load map
 loadField :: Int -> IO Field
 loadField stage = readFile fn >>= return . lines
-	where
-		fn = "data/stage" ++ (show stage) ++ ".map"
+  where
+    fn = "data/stage" ++ (show stage) ++ ".map"
 
 
 chr2img :: Char -> ImageType
@@ -78,27 +78,27 @@ inField fld x y = 0 <= y && y < length fld && 0 <= x && x < length (fld !! y)
 
 fieldRef :: Field -> Int -> Int -> Cell
 fieldRef fld x y
-	| inField fld x y	= fld !! y !! x
-	| otherwise			= ' '
+  | inField fld x y  = fld !! y !! x
+  | otherwise      = ' '
 
 fieldSet :: Field -> Int -> Int -> Cell -> Field
 fieldSet fld x y c
-	| inField fld x y	= replace fld y $ replace (fld !! y) x c
-	| otherwise			= fld
+  | inField fld x y  = replace fld y $ replace (fld !! y) x c
+  | otherwise      = fld
 
 
 renderField :: Surface -> ImageResource -> Int -> Field -> IO ()
 renderField sur imgres scrx fld =
-	sequence_ $ concatMap lineProc $ zip [0..] fld
-	where
-		lineProc (y, ln) = map (cellProc y) $ zip [0..] $ window ln
-		cellProc y (x, c)
-			| c `elem` " *"	= return ()
-			| otherwise		= putchr x y c >> return ()
-		putchr x y c = putimg sur imgres (chr2img c) (x*chrSize - rx) (y*chrSize - 8)
+  sequence_ $ concatMap lineProc $ zip [0..] fld
+  where
+    lineProc (y, ln) = map (cellProc y) $ zip [0..] $ window ln
+    cellProc y (x, c)
+      | c `elem` " *"  = return ()
+      | otherwise    = putchr x y c >> return ()
+    putchr x y c = putimg sur imgres (chr2img c) (x*chrSize - rx) (y*chrSize - 8)
 
-		-- 表示される部分だけ取り出す
-		window = take w . drop qx
-		qx = scrx `div` chrSize
-		rx = scrx `mod` chrSize
-		w = 256 `div` chrSize + 1
+    -- 表示される部分だけ取り出す
+    window = take w . drop qx
+    qx = scrx `div` chrSize
+    rx = scrx `mod` chrSize
+    w = 256 `div` chrSize + 1

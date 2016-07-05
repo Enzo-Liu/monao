@@ -22,14 +22,14 @@ pathSepStr = "/"
 -- ディレクトリ内の項目（ファイル、ディレクトリ）を列挙
 dirEntries :: FilePath -> IO [String]
 dirEntries path = return . filter notDotFile =<< getDirectoryContents path
-	where
-		notDotFile fn = (head fn) /= '.'
+  where
+    notDotFile fn = (head fn) /= '.'
 
 -- ディレクトリ内のファイルを列挙
 fileEntries :: FilePath -> IO [String]
 fileEntries path = filterM isFile =<< dirEntries path
-	where
-		isFile name = doesFileExist (joinPath path name)
+  where
+    isFile name = doesFileExist (joinPath path name)
 
 -- パスの結合
 joinPath a b = a ++ "/" ++ b

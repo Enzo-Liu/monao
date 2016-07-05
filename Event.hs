@@ -6,17 +6,17 @@ import {-# SOURCE #-} Actor (ActorWrapper(..))
 import Sounds
 
 data Event =
-		-- Hit block: x y super?
-		EvHitBlock ImageType Int Int Bool
+    -- Hit block: x y super?
+    EvHitBlock ImageType Int Int Bool
 
-		-- Modify field
-	|	EvSetField Int Int Cell
+    -- Modify field
+  |  EvSetField Int Int Cell
 
-		-- Add actor
-	|	EvAddActor ActorWrapper
+    -- Add actor
+  |  EvAddActor ActorWrapper
 
-		-- Add score
-	|	EvScoreAddEfe Int Int Int
+    -- Add score
+  |  EvScoreAddEfe Int Int Int
 
-		-- Play SE
-	|	EvSound SoundType
+    -- Play SE
+  |  EvSound SoundType
